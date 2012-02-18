@@ -1,13 +1,20 @@
 package cz.gug.hackaton.manhattan.actors;
 
+import java.util.Iterator;
+
 import cz.gug.hackathon.mantattan.R;
+import cz.gug.hackaton.manhattan.actors.accessors.PlantHolderAccessor;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Bounce;
 
 public class Garden extends View {
 	
@@ -17,8 +24,32 @@ public class Garden extends View {
 	
 	Flower[][] garden = new Flower[XRES][YRES];
 	
+	TweenManager manager = new TweenManager();
+	
+	private Handler handler = new Handler();
+	
 	private float viewWidth;
 	private float viewHeight;
+	private boolean isRunning = false;
+	
+	private Thread thread = null;
+	
+	
+	Runnable mUpdate = new Runnable() {
+		  private long lastMillis = System.currentTimeMillis();
+
+		  public void run() {
+		  
+			int deltaMillis = (int) (System.currentTimeMillis() - lastMillis );
+			manager.update(deltaMillis);
+			lastMillis = System.currentTimeMillis();
+			
+		    Garden.this.invalidate();
+		    if (isRunning) {
+		    	handler.postDelayed(mUpdate, 10);
+		    }
+		  }
+		};
 	
 	
 	public Garden(Context context) {
@@ -36,6 +67,8 @@ public class Garden extends View {
 		initFlowers();
 	}
 	
+	
+	
 	private void checkTap(float x,float y) {
 		
 		if (garden != null) {
@@ -43,6 +76,13 @@ public class Garden extends View {
 				for (int v = 0; v < YRES; v++) {
 					if (garden[u][v].wasCrushed(x, y)) {
 						System.out.println("tapped u:" + u +  ", v:" + v);
+						
+						Tween.to(garden[u][v], PlantHolderAccessor.CRUSH, 1000)
+					    .target(1)
+					    .ease(Bounce.OUT)
+					    .delay(1000)
+					    .repeatYoyo(2, 2000)
+					    .start(manager);
 					}
 				}
 			}
@@ -52,6 +92,7 @@ public class Garden extends View {
 	
 	private void initFlowers() {
 	
+		Tween.registerAccessor(Flower.class, new PlantHolderAccessor());
 
 		 final View touchView = findViewById(R.id.ingame_main);
 		    touchView.setOnTouchListener(new View.OnTouchListener() {
@@ -82,6 +123,10 @@ public class Garden extends View {
 	}
 	
 	private void initGarden() {
+		
+		thread = new Thread(mUpdate);
+		thread.start();
+		this.isRunning = true;
 		
 		float xwidth = viewWidth/XRES;
 		float xheight = xwidth; 

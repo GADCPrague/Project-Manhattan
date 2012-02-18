@@ -18,7 +18,7 @@ public class Flower extends PlantHolder implements Renderable {
 	
 	private float idleFactor;
 	private float alphaFactor;
-	private float crushFactor;
+	private float crushFactor=0;
 	private float growFactor;
 	private float cursorAlphaFactor;
 	private float cursorIdleFactor;
@@ -118,17 +118,17 @@ public class Flower extends PlantHolder implements Renderable {
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(holder_width/2-17, holder_height-35);
+		canvas.translate(holder_width/2-17-10*crushFactor, holder_height-35);
 		canvas.drawPicture(flowerLeaf1);
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(holder_width/2+2, holder_height-25);
+		canvas.translate(holder_width/2+2+10*crushFactor, holder_height-25);
 		canvas.drawPicture(flowerLeaf2);
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(holder_width/2-30, holder_height-80);
+		canvas.translate(holder_width/2-30, holder_height-80+30*crushFactor);
 		canvas.drawPicture(flowerHead);
 		canvas.restore();
 		
