@@ -17,17 +17,6 @@ public class InGameActivity extends Activity {
 	    setContentView(R.layout.ingame);
 		
 		
-		 final View touchView = findViewById(R.id.ingame_main);
-		    touchView.setOnTouchListener(new View.OnTouchListener() {
-		        
-		        public boolean onTouch(View v, MotionEvent event) {
-		           System.out.println("Touch coordinates : " +
-		                String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
-		                return true;
-		        }
-			
-		    });
-		   
 		    
 	}
 

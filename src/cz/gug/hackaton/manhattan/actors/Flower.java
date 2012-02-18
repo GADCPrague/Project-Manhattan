@@ -9,12 +9,12 @@ import android.graphics.RectF;
 
 public class Flower extends PlantHolder implements Renderable {
 		
-	private Picture flowerHead;
-	private Picture flowerBody;
-	private Picture flowerLeaf1;
-	private Picture flowerLeaf2;
-	private Picture cursor;
-	private Picture background;
+	private Picture flowerHead  = new Picture();
+	private Picture flowerBody  = new Picture();
+	private Picture flowerLeaf1  = new Picture();
+	private Picture flowerLeaf2  = new Picture();
+	private Picture cursor  = new Picture();
+	private Picture background  = new Picture();
 	
 	private float idleFactor;
 	private float alphaFactor;
@@ -33,44 +33,46 @@ public class Flower extends PlantHolder implements Renderable {
 		// init dummy pictures
 		
 		//flower head
-		Canvas fc1 = flowerHead.beginRecording(60, 60);
+		Canvas fc1 = this.flowerHead.beginRecording(60, 60);
 		Paint fp1 = new Paint();
 		fp1.setColor(Color.RED);
-		fc1.drawCircle(30, 30, 15, fp1);
+		fc1.drawCircle(30, 30, 12, fp1);
 		for (int i = 0; i < 8; i++) {
 			fc1.drawCircle((float)(30+Math.cos(i*Math.PI/4)*15), 
 					       (float)(30+Math.sin(i*Math.PI/4)*15), 5, fp1);
 		}
-		flowerHead.endRecording();
+		fp1.setColor(Color.YELLOW);
+		fc1.drawCircle(30, 30, 10, fp1);
+		this.flowerHead.endRecording();
 		
 		//flower body
-		fc1 = flowerBody.beginRecording(5, 30);
+		fc1 = this.flowerBody.beginRecording(5, 30);
 		fp1.setColor(Color.GREEN);
 		fc1.drawRect(new Rect(0,0,3,30), fp1);
-		flowerBody.endRecording();
+		this.flowerBody.endRecording();
 		
 		//flowerLeaf1
-		fc1 = flowerLeaf1.beginRecording(15, 15);
+		fc1 = this.flowerLeaf1.beginRecording(15, 15);
 		fc1.drawCircle(7, 7, 7, fp1);
-		flowerLeaf1.endRecording();
+		this.flowerLeaf1.endRecording();
 		
 		//flowerLeaf1
-		fc1 = flowerLeaf2.beginRecording(15, 15);
+		fc1 = this.flowerLeaf2.beginRecording(15, 15);
 		fc1.drawCircle(7, 7, 7, fp1);
-		flowerLeaf2.endRecording();
+		this.flowerLeaf2.endRecording();
 		
         //cursor
-		fc1 = cursor.beginRecording(30, 20);
+		fc1 = this.cursor.beginRecording(30, 20);
 		fp1.setColor(Color.WHITE);
 		fp1.setAlpha(100);
 		fc1.drawArc(new RectF(0,0,30,20), 0, 360, false, fp1);
-		cursor.endRecording();
+		this.cursor.endRecording();
 		
 		//background
-		fc1 = background.beginRecording(30, 30);
-		fp1.setColor(Color.LTGRAY);
-		fc1.drawRoundRect(new RectF(0,0,30,30), 8, 0, fp1);
-		background.endRecording();
+		fc1 = this.background.beginRecording(30, 30);
+		fp1.setColor(Color.TRANSPARENT);
+		fc1.drawRoundRect(new RectF(0,0,30,30), 8, 8, fp1);
+		this.background.endRecording();
 		
 		if (flowerHead != null)
 				this.flowerHead = flowerHead;
@@ -95,36 +97,38 @@ public class Flower extends PlantHolder implements Renderable {
 	public void render(Canvas canvas) {
 		
 		canvas.save();
-		Paint p = new Paint();
-		p.setAlpha((int)(255f*alphaFactor));
-		canvas.saveLayer(0, 0, 0, 0, p, 0);
+	//	Paint p = new Paint();
+	//	p.setAlpha((int)(255f*alphaFactor));
+	//	canvas.saveLayer(0, 0, 0, 0, p, 0);
 		canvas.translate(this.xpos, this.ypos);
 		
 		canvas.save();
+		canvas.translate(holder_width/2-15, holder_height-30);
 	    canvas.drawPicture(background);
 		canvas.restore();
 		
 		canvas.save();
+		canvas.translate(holder_width/2-15, holder_height-10);
 		canvas.drawPicture(cursor);
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(0, -30);
+		canvas.translate(holder_width/2-2, holder_height-30);
 		canvas.drawPicture(flowerBody);
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(-20, -20);
+		canvas.translate(holder_width/2-17, holder_height-35);
 		canvas.drawPicture(flowerLeaf1);
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(20, -20);
+		canvas.translate(holder_width/2+2, holder_height-25);
 		canvas.drawPicture(flowerLeaf2);
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(0, -30);
+		canvas.translate(holder_width/2-30, holder_height-80);
 		canvas.drawPicture(flowerHead);
 		canvas.restore();
 		

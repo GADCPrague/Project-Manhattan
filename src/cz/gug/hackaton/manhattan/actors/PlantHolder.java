@@ -4,7 +4,7 @@ public class PlantHolder implements Crushable {
 	
 	protected float xpos;
 	protected float ypos;
-	private float holder_width,holder_height;
+	protected float holder_width,holder_height;
 	
 	
 	public PlantHolder(float xpos, float ypos, float holder_width,
