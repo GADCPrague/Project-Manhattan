@@ -91,7 +91,7 @@ public class Flower extends PlantHolder implements Renderable {
 				this.background = background;
 	}
 
-	@Override
+	
 	public void render(Canvas canvas) {
 		
 		canvas.save();
