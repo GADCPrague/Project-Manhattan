@@ -5,5 +5,10 @@
     <string name="app_name">ProjectM</string>
     <string name="app_name_menu">weed crusher</string>
     <string name="app_menu_newgame">Start</string>
+    <string name="app_menu_about">About</string>
+    <string name="about_team_name">Densely Demon Brutally Tough</string>
+    <string name="about_presents">presents</string>
+    <string name="about_developers">Ivan Janković, Lukáš Benda, Jan Žalský, Tomáš Ciboch</string>
+    <string name="about_developers_intro">developed by:</string>
 
 </resources>
