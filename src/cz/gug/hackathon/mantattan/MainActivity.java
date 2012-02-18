@@ -13,14 +13,8 @@ public class MainActivity extends Activity {
 	
 	//private static final String TAG = MainActivity.class.getSimpleName();
 	//private DataTable dataTable;
-    
-
-
-
-
-    
+	    
 	@Override
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
