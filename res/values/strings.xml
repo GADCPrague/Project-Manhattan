@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">ProjectM</string>
+    <string name="app_name_menu">weed crusher</string>
+    <string name="app_menu_newgame">Start</string>
 
 </resources>
