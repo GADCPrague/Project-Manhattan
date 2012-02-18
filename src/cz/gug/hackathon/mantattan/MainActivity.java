@@ -3,17 +3,16 @@ package cz.gug.hackathon.mantattan;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-//import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.Toast;
+
 
 public class MainActivity extends Activity {
 	
 	//private static final String TAG = MainActivity.class.getSimpleName();
 	//private DataTable dataTable;
-	    
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +27,12 @@ public class MainActivity extends Activity {
         final Button start = (Button) findViewById(R.id.start_new_button);
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	Toast toast = Toast.makeText(v.getContext(), "start", Toast.LENGTH_LONG);
-            	toast.show();
+            	//Toast toast = Toast.makeText(v.getContext(), "start", Toast.LENGTH_LONG);
+            	//toast.show();
+            	
+            	Intent intent = new Intent(v.getContext(), InGameActivity.class);
+            	startActivity(intent);
+            	
             }
         });
         

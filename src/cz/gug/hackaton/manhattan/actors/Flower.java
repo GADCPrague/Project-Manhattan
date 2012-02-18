@@ -1,19 +1,24 @@
 package cz.gug.hackaton.manhattan.actors;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Picture;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
-public class Flower extends PlantHolder{
+public class Flower extends PlantHolder implements Renderable {
 		
-	private Picture flowerHead;
-	private Picture flowerBody;
-	private Picture flowerLeaf1;
-	private Picture flowerLeaf2;
-	private Picture cursor;
-	private Picture background;
+	private Picture flowerHead  = new Picture();
+	private Picture flowerBody  = new Picture();
+	private Picture flowerLeaf1  = new Picture();
+	private Picture flowerLeaf2  = new Picture();
+	private Picture cursor  = new Picture();
+	private Picture background  = new Picture();
 	
 	private float idleFactor;
 	private float alphaFactor;
-	private float crushFactor;
+	private float crushFactor=0;
 	private float growFactor;
 	private float cursorAlphaFactor;
 	private float cursorIdleFactor;
@@ -23,14 +28,113 @@ public class Flower extends PlantHolder{
 			      Picture flowerLeaf2,Picture cursor,Picture background ) {
 		
 		super(xpos, ypos, holder_width, holder_height);
-		this.flowerHead = flowerHead;
-		this.flowerBody = flowerBody;
-		this.flowerLeaf1 = flowerLeaf1;
-		this.flowerLeaf2 = flowerLeaf2;
-		this.cursor = cursor;
-		this.background = background;
+	
+		
+		// init dummy pictures
+		
+		//flower head
+		Canvas fc1 = this.flowerHead.beginRecording(60, 60);
+		Paint fp1 = new Paint();
+		fp1.setColor(Color.RED);
+		fc1.drawCircle(30, 30, 12, fp1);
+		for (int i = 0; i < 8; i++) {
+			fc1.drawCircle((float)(30+Math.cos(i*Math.PI/4)*15), 
+					       (float)(30+Math.sin(i*Math.PI/4)*15), 5, fp1);
+		}
+		fp1.setColor(Color.YELLOW);
+		fc1.drawCircle(30, 30, 10, fp1);
+		this.flowerHead.endRecording();
+		
+		//flower body
+		fc1 = this.flowerBody.beginRecording(5, 30);
+		fp1.setColor(Color.GREEN);
+		fc1.drawRect(new Rect(0,0,3,30), fp1);
+		this.flowerBody.endRecording();
+		
+		//flowerLeaf1
+		fc1 = this.flowerLeaf1.beginRecording(15, 15);
+		fc1.drawCircle(7, 7, 7, fp1);
+		this.flowerLeaf1.endRecording();
+		
+		//flowerLeaf1
+		fc1 = this.flowerLeaf2.beginRecording(15, 15);
+		fc1.drawCircle(7, 7, 7, fp1);
+		this.flowerLeaf2.endRecording();
+		
+        //cursor
+		fc1 = this.cursor.beginRecording(30, 20);
+		fp1.setColor(Color.WHITE);
+		fp1.setAlpha(100);
+		fc1.drawArc(new RectF(0,0,30,20), 0, 360, false, fp1);
+		this.cursor.endRecording();
+		
+		//background
+		fc1 = this.background.beginRecording(30, 30);
+		fp1.setColor(Color.TRANSPARENT);
+		fc1.drawRoundRect(new RectF(0,0,30,30), 8, 8, fp1);
+		this.background.endRecording();
+		
+		if (flowerHead != null)
+				this.flowerHead = flowerHead;
+		
+		if (flowerBody != null)
+				this.flowerBody = flowerBody;
+		
+		if (flowerLeaf1 != null)
+			this.flowerLeaf1 = flowerLeaf1;
+		
+		if (flowerLeaf2 != null)
+			this.flowerLeaf2 = flowerLeaf2;
+		
+		if (cursor != null)
+				this.cursor = cursor;
+		
+		if (background != null)
+				this.background = background;
 	}
 
+	
+	public void render(Canvas canvas) {
+		
+		canvas.save();
+	//	Paint p = new Paint();
+	//	p.setAlpha((int)(255f*alphaFactor));
+	//	canvas.saveLayer(0, 0, 0, 0, p, 0);
+		canvas.translate(this.xpos, this.ypos);
+		
+		canvas.save();
+		canvas.translate(holder_width/2-15, holder_height-30);
+	    canvas.drawPicture(background);
+		canvas.restore();
+		
+		canvas.save();
+		canvas.translate(holder_width/2-15, holder_height-10);
+		canvas.drawPicture(cursor);
+		canvas.restore();
+		
+		canvas.save();
+		canvas.translate(holder_width/2-2, holder_height-30);
+		canvas.drawPicture(flowerBody);
+		canvas.restore();
+		
+		canvas.save();
+		canvas.translate(holder_width/2-17-10*crushFactor, holder_height-35);
+		canvas.drawPicture(flowerLeaf1);
+		canvas.restore();
+		
+		canvas.save();
+		canvas.translate(holder_width/2+2+10*crushFactor, holder_height-25);
+		canvas.drawPicture(flowerLeaf2);
+		canvas.restore();
+		
+		canvas.save();
+		canvas.translate(holder_width/2-30, holder_height-80+30*crushFactor);
+		canvas.drawPicture(flowerHead);
+		canvas.restore();
+		
+		canvas.restore();
+	}
+	
 	public float getX() {
 		return this.xpos;
 	}
@@ -110,6 +214,8 @@ public class Flower extends PlantHolder{
 	
 		this.cursorIdleFactor = f;
 	}
+
+	
 
 
 }
