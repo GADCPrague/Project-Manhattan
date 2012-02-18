@@ -14,7 +14,7 @@ public class PlantHolderAccessor  implements TweenAccessor<Flower> {
     public static final int CURSOR_ALPHA = 7;
     public static final int CURSOR_IDLE = 8;
 	
-	@Override
+	
 	public int getValues(Flower target, int tweenType, float[] returnValues) {
 		switch (tweenType) {
 			case POSITION_X: returnValues[0] = (float) target.getX(); return 1;
@@ -29,7 +29,7 @@ public class PlantHolderAccessor  implements TweenAccessor<Flower> {
 		}
 	}
 
-	@Override
+	
 	public void setValues(Flower target, int tweenType, float[] newValues) {
 		switch (tweenType) {
 			case POSITION_X: target.setX(newValues[0]); break;

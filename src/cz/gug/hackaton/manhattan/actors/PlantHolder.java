@@ -17,7 +17,7 @@ public class PlantHolder implements Crushable {
 	}
 
 
-	@Override
+	
 	public boolean wasCrushed(float x, float y) {
 	
 		if (x >= xpos && x <= xpos + holder_width &&
