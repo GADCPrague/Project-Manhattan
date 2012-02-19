@@ -9,19 +9,19 @@ import android.graphics.RectF;
 
 public class Flower extends PlantHolder implements Renderable {
 		
-	private Picture flowerHead  = new Picture();
-	private Picture flowerBody  = new Picture();
-	private Picture flowerLeaf1  = new Picture();
-	private Picture flowerLeaf2  = new Picture();
-	private Picture cursor  = new Picture();
-	private Picture background  = new Picture();
+	protected Picture flowerHead  = new Picture();
+	protected Picture flowerBody  = new Picture();
+	protected Picture flowerLeaf1  = new Picture();
+	protected Picture flowerLeaf2  = new Picture();
+	protected Picture cursor  = new Picture();
+	protected Picture background  = new Picture();
 	
-	private float idleFactor;
-	private float alphaFactor;
-	private float crushFactor=0;
-	private float growFactor;
-	private float cursorAlphaFactor;
-	private float cursorIdleFactor;
+	protected float idleFactor;
+	protected float alphaFactor;
+	protected float crushFactor=0;
+	protected float growFactor;
+	protected float cursorAlphaFactor;
+	protected float cursorIdleFactor;
 
 	public Flower(float xpos, float ypos, float holder_width,float holder_height,
 			      Picture flowerHead,Picture flowerBody,Picture flowerLeaf1,
@@ -108,7 +108,9 @@ public class Flower extends PlantHolder implements Renderable {
 		canvas.restore();
 		
 		canvas.save();
+		//canvas.saveLayerAlpha(new RectF(0,0,30,20), 20, 0);
 		canvas.translate(holder_width/2-15, holder_height-10);
+		canvas.scale(crushFactor+1, 1, 15, 10);
 		canvas.drawPicture(cursor);
 		canvas.restore();
 		
@@ -129,6 +131,10 @@ public class Flower extends PlantHolder implements Renderable {
 		
 		canvas.save();
 		canvas.translate(holder_width/2-30, holder_height-80+30*crushFactor);
+		
+		canvas.rotate(180*crushFactor, 30, 30);
+		canvas.scale(1,1-crushFactor/5, 30, 30);
+		
 		canvas.drawPicture(flowerHead);
 		canvas.restore();
 		

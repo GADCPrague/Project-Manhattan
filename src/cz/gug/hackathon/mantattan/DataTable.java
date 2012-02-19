@@ -77,6 +77,24 @@ public class DataTable {
 		}
 		return true;
 	}
+	
+	
+	/**
+	 * getValues returns cell value for given x and y coord
+	 * 
+	 * @return returns table value or -1 if out of range
+	 */
+	public int getValues(int x,int y) {
+		
+		if (x >= 0 && x < columns &&
+			y >= 0 && y < rows) {
+			
+			return dataTable[y][x];
+			
+		} 
+		
+		return -1;
+	}
 
 	/**
 	 * Executes the screen tap logic on the table.

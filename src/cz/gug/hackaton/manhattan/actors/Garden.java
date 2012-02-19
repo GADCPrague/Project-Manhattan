@@ -2,6 +2,7 @@ package cz.gug.hackaton.manhattan.actors;
 
 import java.util.Iterator;
 
+import cz.gug.hackathon.mantattan.DataTable;
 import cz.gug.hackathon.mantattan.R;
 import cz.gug.hackaton.manhattan.actors.accessors.PlantHolderAccessor;
 import android.content.Context;
@@ -12,8 +13,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.TweenCallback.EventType;
 import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Back;
 
@@ -23,7 +27,8 @@ public class Garden extends View {
 	public static int XRES = 5;
 	public static int YRES = 6;
 	
-	Flower[][] garden = new Flower[XRES][YRES];
+	Flower[][][] garden = new Flower[XRES][YRES][2];  // two states per cell
+	
 	
 	TweenManager manager = new TweenManager();
 	
@@ -33,7 +38,11 @@ public class Garden extends View {
 	private float viewHeight;
 	private boolean isRunning = false;
 	
+	private boolean tapLock = false;
+	
 	private Thread thread = null;
+	
+	private DataTable table;
 	
 	
 	Runnable mUpdate = new Runnable() {
@@ -72,27 +81,145 @@ public class Garden extends View {
 	
 	private void checkTap(float x,float y) {
 		
-		if (garden != null) {
+		if (garden != null ) {
+			
 			for (int u = 0; u < XRES; u++) {
 				for (int v = 0; v < YRES; v++) {
-					if (garden[u][v].wasCrushed(x, y)) {
+					
+					if (garden[u][v][0].wasCrushed(x, y)) {
 						System.out.println("tapped u:" + u +  ", v:" + v);
-						
-						manager.killTarget(garden[u][v]);
-						garden[u][v].setCrush(0f);
-						
-						
-						Tween.to(garden[u][v], PlantHolderAccessor.CRUSH, 500)
-					    .target(1)
-					    .ease(Bounce.INOUT)
-					    .delay(100)
-					    .repeatYoyo(1, 500)
-					    .start(manager);
+						handleTap(u, v);
 					}
+				
+					/*
+					if (0 == 0) {
+						if (garden[u][v][0].wasCrushed(x, y)) {
+							System.out.println("tapped u:" + u +  ", v:" + v);
+						
+							manager.killTarget(garden[u][v][0]);
+							garden[u][v][0].setCrush(0f);
+						
+							final int tx = u;
+							final int ty = v;
+							TweenCallback delayedTap = new TweenCallback() {
+								
+								public void onEvent(EventType arg0, BaseTween arg1) {
+									
+									if (table != null) {
+										table.tap(ty, tx);
+									}
+									
+									manager.killTarget(garden[tx][ty][1]);
+									garden[tx][ty][1].setCrush(1f);
+								
+								
+									Tween.to(garden[tx][ty][1], PlantHolderAccessor.CRUSH, 500)
+									.target(0)
+									.ease(Bounce.INOUT)
+									.delay(100)
+									.start(manager);
+									
+								}
+							};
+						
+							Tween.to(garden[u][v][0], PlantHolderAccessor.CRUSH, 500)
+							.target(1)
+							.ease(Bounce.INOUT)
+							.delay(100)
+							.call(delayedTap)
+							.start(manager);
+						}
+					}
+					
+					if (1 == 1) {
+						if (garden[u][v][1].wasCrushed(x, y)) {
+							System.out.println("tapped u:" + u +  ", v:" + v);
+						
+							manager.killTarget(garden[u][v][1]);
+							garden[u][v][1].setCrush(0f);
+						
+						
+							Tween.to(garden[u][v][1], PlantHolderAccessor.CRUSH, 500)
+							.target(1)
+							.ease(Bounce.INOUT)
+							.delay(100)
+							.repeatYoyo(1, 500)
+							.start(manager);
+						}
+					}
+					*/
 				}
 			}
 		}		
 	}
+	
+	
+	private void handleTap(int u,int v) {
+		
+		// save previous state
+		// process turn
+		// compere new and previous state
+		// fire animations
+		
+		System.out.println("Garden.handleTap(" + u + "," + v + ")");
+		
+		if (!tapLock && table != null) {
+		//	tapLock = true;
+
+			int[][] oldState = new int[XRES][YRES];
+			
+			for (int i = 0; i < XRES; i++) 
+				for (int j = 0; j < YRES; j++) {
+					oldState[i][j] = table.getValues(i, j);
+				}
+			
+			table.tap(v, u);
+			
+			int[][] newState = new int[XRES][YRES];
+			
+			for (int i = 0; i < XRES; i++) 
+				for (int j = 0; j < YRES; j++) {
+					newState[i][j] = table.getValues(i, j);
+				}
+			
+			// -- compare states --
+			
+			int maxDelay = 0;
+			
+			for (int i = 0; i < XRES; i++) 
+				for (int j = 0; j < YRES; j++) {
+
+					if (newState[i][j] != oldState[i][j]) {
+						
+						System.out.println("difference at " + i + "," + j);
+		
+						//get distance to tap origin
+						int dx = u-i;
+						int dy = v-j;
+						int l = (int)Math.sqrt(dx*dx+dy*dy);
+						
+						int delayFactor = l * 300; // compute animation start delay based on distance to tap origin
+						
+						if (maxDelay < delayFactor) maxDelay = delayFactor;
+						
+						// init animation
+						
+					}
+				}
+			
+			// schedule tap unlock after last animation finished
+			Tween.call(new TweenCallback() {
+				public void onEvent(EventType arg0, BaseTween arg1) {
+					Garden.this.tapLock = false;
+				}
+			}).delay(maxDelay+1000).start(manager);
+			
+		}
+		
+	}
+	
+
+	
 	
 	
 	private void initFlowers() {
@@ -135,6 +262,11 @@ public class Garden extends View {
 		thread.start();
 		this.isRunning = true;
 		
+		if (table == null) {
+			table = new DataTable(XRES,YRES);
+			table.shuffle(5);
+		}
+		
 		float xwidth = viewWidth/XRES;
 		float xheight = xwidth; 
 		
@@ -142,7 +274,8 @@ public class Garden extends View {
 		
 		for (int u = 0; u < XRES; u++) {
 			for (int v = 0; v < YRES; v++) {
-				garden[u][v] = new Flower(u*xwidth, v*xheight+yOffset, xwidth, xheight, null, null, null, null, null, null);
+				garden[u][v][0] = new NicePlant(u*xwidth, v*xheight+yOffset, xwidth, xheight, null, null, null, null, null, null);
+				garden[u][v][1] = new NastyPlant(u*xwidth, v*xheight+yOffset, xwidth, xheight, null, null, null, null, null, null);
 			}
 		}
 	}
@@ -150,10 +283,20 @@ public class Garden extends View {
 	
 	protected void onDraw(Canvas canvas) {
 	
-		if (garden != null) {
+		if (garden != null && table != null ) {
 			for (int u = 0; u < XRES; u++) {
 				for (int v = 0; v < YRES; v++) {
-					garden[u][v].render(canvas);
+					
+					int val = table.getValues(v, u);
+					
+					if (val == 0) {  // good plant 
+						garden[u][v][0].render(canvas);
+					}
+					
+					if (val == 1) {  // bad plant
+						garden[u][v][1].render(canvas);
+					}
+					
 				}
 			}
 		}

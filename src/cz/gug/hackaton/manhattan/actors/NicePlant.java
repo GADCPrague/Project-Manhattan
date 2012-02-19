@@ -14,15 +14,18 @@ public class NicePlant extends Flower {
 		super(xpos, ypos, holder_width, holder_height, flowerHead, flowerBody,
 				flowerLeaf1, flowerLeaf2, cursor, background);
 
-		Canvas fc1 = flowerHead.beginRecording(60, 60);
+		
+		Canvas fc1 = this.flowerHead.beginRecording(60, 60);
 		Paint fp1 = new Paint();
-		fp1.setColor(Color.YELLOW);
+		fp1.setColor(Color.RED);
 		fc1.drawCircle(30, 30, 15, fp1);
 		for (int i = 0; i < 8; i++) {
 			fc1.drawCircle((float)(30+Math.cos(i*Math.PI/4)*15), 
 					       (float)(30+Math.sin(i*Math.PI/4)*15), 5, fp1);
 		}
-		flowerHead.endRecording();
+		fp1.setColor(Color.YELLOW);
+		fc1.drawCircle(30, 30, 12, fp1);
+		this.flowerHead.endRecording();
 	}
 
 }
