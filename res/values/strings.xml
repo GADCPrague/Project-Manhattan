@@ -8,6 +8,15 @@
     <string name="about_presents">by</string>
     <string name="about_developers">Ivan Janković, Lukáš Benda, Jan Žalský, Tomáš Ciboch</string>
     <string name="about_developers_intro">developed by:</string>
+
     <color name="headers">#552200</color>
+    <color name="buton_caption">#BBBBBB</color>
+
+    <style name="button">
+        <item name="android:layout_marginRight">40dip</item>
+        <item name="android:layout_marginLeft">40dip</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/buton_caption</item>
+    </style>
 
 </resources>
