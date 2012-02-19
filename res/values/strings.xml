@@ -10,5 +10,6 @@
     <string name="about_developers">Ivan Janković, Lukáš Benda, Jan Žalský, Tomáš Ciboch</string>
     <string name="about_developers_intro">developed by:</string>
     <color name="headers">#552200</color>
+    <string name="highscores">Highscores</string>
 
 </resources>

@@ -5,14 +5,29 @@
     android:orientation="vertical" >
     
 	<TextView
-	    android:id="@+id/player01" />
+	    android:id="@+id/player1"
+	    android:layout_height="wrap_content"
+     android:layout_width="fill_parent"
+     android:gravity="left" />
 	<TextView
-	    android:id="@+id/player02" />
+	    android:id="@+id/player2"
+	    android:layout_height="wrap_content"
+     android:layout_width="fill_parent"
+     android:gravity="left" />
 	<TextView
-	    android:id="@+id/player03" />
+	    android:id="@+id/player3"
+	    android:layout_height="wrap_content"
+     android:layout_width="fill_parent"
+     android:gravity="left" />
 	<TextView
-	    android:id="@+id/player04" />
+	    android:id="@+id/player4"
+	    android:layout_height="wrap_content"
+     android:layout_width="fill_parent"
+     android:gravity="left" />
 	<TextView
-	    android:id="@+id/player05" />
+	    android:id="@+id/player5"
+	    android:layout_height="wrap_content"
+     android:layout_width="fill_parent"
+     android:gravity="left" />
     
 </LinearLayout>

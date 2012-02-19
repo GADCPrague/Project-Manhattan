@@ -10,8 +10,7 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 
-	// private static final String TAG = MainActivity.class.getSimpleName();
-	// private DataTable dataTable;
+	private static final String TAG = MainActivity.class.getSimpleName();
 	private MediaPlayer mp;
 
 	private void initPlayer() {

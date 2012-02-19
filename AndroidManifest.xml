@@ -33,6 +33,10 @@
             
         </activity>
         
+        <activity
+            android:name=".HighscoresActivity" 
+            android:label="$string/highscores"/>
+        
         
     </application>
 
