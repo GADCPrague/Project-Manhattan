@@ -1,9 +1,11 @@
 package cz.gug.hackathon.mantattan;
 
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -14,13 +16,21 @@ public class HighscoresActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.highscores);
+        if (!(savedInstanceState == null)) {
+        	String playerName = savedInstanceState.getString("playerName");
+        	int completedInTaps = savedInstanceState.getInt("numTaps");
+        	
+        	WeedCrusherApp.highscoresList.add(new Player(playerName, completedInTaps));
+        	Collections.sort(WeedCrusherApp.highscoresList, new PlayerTapsComparable());
+        	//Log.d("kurac", "empty");
+        }
+		Log.d("kurac", "created");
         
     }
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		List<Player> highscoresList = WeedCrusherApp.highscoresList;
 		
 		TextView tv = (TextView) findViewById(R.id.player1);

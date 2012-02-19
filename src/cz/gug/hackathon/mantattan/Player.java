@@ -33,6 +33,12 @@ public class Player {
 		this.completedInSeconds = numSeconds;
 	}
 	
+	public Player(String name, int numTaps) {
+		this.name = name;
+		this.completedInTaps = numTaps;
+		this.completedInSeconds = 10000;
+	}
+	
 	@Override
 	public String toString() {
 		return stringForm; 
