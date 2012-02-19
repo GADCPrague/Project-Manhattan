@@ -17,7 +17,7 @@ public class DataTable {
 	int rows, columns;
 	private List<Point> solutionTapSequence;
 
-	public DataTable(int rows, int columns) {
+	public DataTable(int columns, int rows) {
 		this.rows = rows;
 		this.columns = columns;
 		dataTable = new int[rows][columns];
@@ -84,16 +84,16 @@ public class DataTable {
 	 * 
 	 * @return returns table value or -1 if out of range
 	 */
-	public int getValues(int x,int y) {
+	public int getValues(int row,int col) {
 		
-		if (x >= 0 && x < columns &&
-			y >= 0 && y < rows) {
+		//if (col >= 0 && col < columns &&
+		//	row >= 0 && row < rows) {
 			
-			return dataTable[y][x];
+			return dataTable[row][col];
 			
-		} 
+		//} 
 		
-		return -1;
+		//return -1;
 	}
 
 	/**
@@ -117,6 +117,16 @@ public class DataTable {
 				dataTable[x][j] = 1 - dataTable[x][j];
 			}
 		}
+		
+	
+		for (int i = 0; i < rows; i++) {
+			System.out.println();
+			for (int j = 0; j < columns; j++) {
+				System.out.print(dataTable[i][j] + " ");
+			}
+		}
+			
+		
 	}
 
 	/**
