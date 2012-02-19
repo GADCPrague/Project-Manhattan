@@ -133,7 +133,7 @@ public class Flower extends PlantHolder implements Renderable {
 		canvas.translate(holder_width/2-30, holder_height-80+30*crushFactor);
 		
 		canvas.rotate(180*crushFactor, 30, 30);
-		canvas.scale(1,1-crushFactor/5, 30, 30);
+		canvas.scale(1,1-crushFactor/3, 30, 30);
 		
 		canvas.drawPicture(flowerHead);
 		canvas.restore();
