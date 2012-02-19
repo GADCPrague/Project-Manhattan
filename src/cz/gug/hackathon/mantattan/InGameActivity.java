@@ -1,10 +1,7 @@
 package cz.gug.hackathon.mantattan;
 
 import android.app.Activity;
-import android.media.AudioManager;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 
 public class InGameActivity extends Activity {
@@ -16,7 +13,6 @@ public class InGameActivity extends Activity {
 	
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    setContentView(R.layout.ingame);
-	    this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		
 		    
 	}

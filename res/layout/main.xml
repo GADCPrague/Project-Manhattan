@@ -19,6 +19,13 @@
      android:text="@string/app_menu_newgame" android:layout_marginLeft="40dip" android:layout_marginRight="40dip"/>
     <Button
      android:gravity="center"
+     android:id="@+id/highscores_button"
+     android:layout_height="wrap_content"
+     android:layout_width="fill_parent"
+     android:text="@string/app_menu_highscores"
+      android:layout_marginRight="40dip" android:layout_marginLeft="40dip" android:layout_marginTop="10dip"/>
+    <Button
+     android:gravity="center"
      android:id="@+id/about_button"
      android:layout_height="wrap_content"
      android:layout_width="fill_parent"

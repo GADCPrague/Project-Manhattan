@@ -1,24 +1,14 @@
 package cz.gug.hackathon.mantattan;
 
 import android.app.Application;
-import android.content.Intent;
 import android.util.Log;
 
 public class WeedCrusherApp extends Application {
 
 	private static final String TAG = WeedCrusherApp.class.getSimpleName();
 
-	private boolean musicServiceRunning;
 	private DataTable dataTable;
 	private int numRows, numCols;
-
-	public boolean isMusicServiceRunning() {
-		return musicServiceRunning;
-	}
-
-	public void setMusicServiceRunning(boolean musicServiceRunning) {
-		this.musicServiceRunning = musicServiceRunning;
-	}
 
 	public DataTable getDataTable() {
 		return dataTable;
@@ -27,8 +17,8 @@ public class WeedCrusherApp extends Application {
 	@Override
 	public void onCreate() { //
 		super.onCreate();
-		numRows = 5;
-		numCols = 6;
+		numRows = 6;
+		numCols = 5;
 //		this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
 //		this.prefs.registerOnSharedPreferenceChangeListener(this);
 		dataTable = new DataTable(numRows, numCols);

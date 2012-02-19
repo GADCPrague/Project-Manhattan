@@ -42,6 +42,14 @@ public class MainActivity extends Activity {
             }
         });
         
+        final Button highscores = (Button) findViewById(R.id.highscores_button);
+        highscores.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	Intent intent = new Intent(v.getContext(), HighscoresActivity.class);
+            	startActivity(intent);
+            }
+        });
+        
         final Button about = (Button) findViewById(R.id.about_button);
         about.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
