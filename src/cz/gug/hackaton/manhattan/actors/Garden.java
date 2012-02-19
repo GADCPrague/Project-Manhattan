@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.equations.Bounce;
+import aurelienribon.tweenengine.equations.Back;
 
 public class Garden extends View {
 	
@@ -77,11 +78,15 @@ public class Garden extends View {
 					if (garden[u][v].wasCrushed(x, y)) {
 						System.out.println("tapped u:" + u +  ", v:" + v);
 						
-						Tween.to(garden[u][v], PlantHolderAccessor.CRUSH, 1000)
+						manager.killTarget(garden[u][v]);
+						garden[u][v].setCrush(0f);
+						
+						
+						Tween.to(garden[u][v], PlantHolderAccessor.CRUSH, 500)
 					    .target(1)
-					    .ease(Bounce.OUT)
-					    .delay(1000)
-					    .repeatYoyo(2, 2000)
+					    .ease(Bounce.INOUT)
+					    .delay(100)
+					    .repeatYoyo(1, 500)
 					    .start(manager);
 					}
 				}
@@ -98,10 +103,12 @@ public class Garden extends View {
 		    touchView.setOnTouchListener(new View.OnTouchListener() {
 		        
 		        public boolean onTouch(View v, MotionEvent event) {
-		           System.out.println("Touch coordinates : " +
+		        	if (event.getAction() == MotionEvent.ACTION_DOWN) {
+		        		System.out.println("Touch coordinates : " +
 		                String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
 		           
 		                checkTap(event.getX(),event.getY());
+		        	}
 		           
 		                return true;
 		        }
