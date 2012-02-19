@@ -6,7 +6,12 @@ import cz.gug.hackathon.mantattan.DataTable;
 import cz.gug.hackathon.mantattan.R;
 import cz.gug.hackaton.manhattan.actors.accessors.PlantHolderAccessor;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -46,6 +51,19 @@ public class Garden extends View {
 	private DataTable table;
 	
 	private int[][] stateImage = new int[ROWS][COLS];
+	
+	
+	Bitmap back = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+	Rect backDim = new Rect(0,0,back.getWidth(),back.getHeight());
+	Rect viewDim;
+	Paint backPaint = new Paint();
+	
+	private MediaPlayer mp;
+
+	private void initPlayer() {
+		mp = MediaPlayer.create(this.getContext(), R.raw.grow);
+	}
+
 	
 	
 	Runnable mUpdate = new Runnable() {
@@ -92,6 +110,11 @@ public class Garden extends View {
 					if (garden[r][c][0].wasCrushed(x, y)) {
 						System.out.println("tapped u:" + c +  ", v:" + r);
 						handleTap(r, c);
+						
+						if (!mp.isPlaying()) {
+							mp.start();
+						}
+						
 					}
 				}
 			}
@@ -182,13 +205,7 @@ public class Garden extends View {
 									
 									manager.killTarget(garden[tr][tc][newState[tr][tc]]);
 									garden[tr][tc][newState[tr][tc]].setCrush(1f);
-									
-								//	Tween.to(garden[tr][tc][newState[tr][tc]], PlantHolderAccessor.CRUSH, 500)
-								//	.target(0)
-								//	.ease(Bounce.OUT)
-								//	.delay(500)
-								//	.start(manager);
-									
+																									
 								}
 							}	
 							));
@@ -228,6 +245,10 @@ public class Garden extends View {
 	
 	private void initFlowers() {
 	
+		initPlayer();
+		
+		
+		
 		Tween.registerAccessor(Flower.class, new PlantHolderAccessor());
 
 		 final View touchView = findViewById(R.id.ingame_main);
@@ -271,6 +292,8 @@ public class Garden extends View {
 			table.shuffle(5);
 		}
 		
+		this.viewDim = new Rect(0,0,(int)viewWidth,(int)viewHeight);
+		
 		float xwidth = viewWidth/COLS;
 		float xheight = xwidth; 
 		
@@ -278,8 +301,13 @@ public class Garden extends View {
 		
 		for (int c = 0; c < COLS; c++) {
 			for (int r = 0; r < ROWS; r++) {
-				garden[r][c][0] = new NicePlant(c*xwidth, r*xheight+yOffset, xwidth, xheight, null, null, null, null, null, null);
-				garden[r][c][1] = new NastyPlant(c*xwidth, r*xheight+yOffset, xwidth, xheight, null, null, null, null, null, null);
+			//	garden[r][c][0] = new NicePlant(c*xwidth, r*xheight+yOffset, xwidth, xheight, null, null, null, null, null, null);
+			//	garden[r][c][1] = new NastyPlant(c*xwidth, r*xheight+yOffset, xwidth, xheight, null, null, null, null, null, null);
+				
+				garden[r][c][0] = new BitmapFlower(c*xwidth, r*xheight+yOffset, xwidth, xheight,R.drawable.goodhead1,R.drawable.goodbody1,R.drawable.goodleaf1,R.drawable.goodleaf2,R.drawable.goodback1, this.getContext());
+				garden[r][c][1] = new BitmapFlower(c*xwidth, r*xheight+yOffset, xwidth, xheight,R.drawable.badhead1,R.drawable.badbody1,R.drawable.badleaf1,R.drawable.badleaf2,R.drawable.badback1, this.getContext());
+				
+				
 			    stateImage[r][c] = table.getValues(r, c);
 			}
 		}
@@ -287,6 +315,12 @@ public class Garden extends View {
 
 	
 	protected void onDraw(Canvas canvas) {
+		
+		if (viewDim != null) {
+			canvas.save();
+			canvas.drawBitmap(back, backDim, viewDim, backPaint);
+			canvas.restore();
+		}
 	
 		if (garden != null && table != null ) {
 			for (int c = 0; c < COLS; c++) {

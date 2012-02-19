@@ -16,12 +16,17 @@ public class Flower extends PlantHolder implements Renderable {
 	protected Picture cursor  = new Picture();
 	protected Picture background  = new Picture();
 	
+		
 	protected float idleFactor;
 	protected float alphaFactor;
 	protected float crushFactor=0;
 	protected float growFactor;
 	protected float cursorAlphaFactor;
 	protected float cursorIdleFactor;
+	
+	public Flower() {
+		super();
+	}
 
 	public Flower(float xpos, float ypos, float holder_width,float holder_height,
 			      Picture flowerHead,Picture flowerBody,Picture flowerLeaf1,
@@ -103,7 +108,7 @@ public class Flower extends PlantHolder implements Renderable {
 		canvas.translate(this.xpos, this.ypos);
 		
 		canvas.save();
-		canvas.translate(holder_width/2-15, holder_height-30);
+		canvas.translate(holder_width/2-background.getHeight()/2, holder_height-background.getHeight()/2);
 	    canvas.drawPicture(background);
 		canvas.restore();
 		
@@ -115,12 +120,12 @@ public class Flower extends PlantHolder implements Renderable {
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(holder_width/2-2, holder_height-30);
+		canvas.translate(holder_width/2-flowerBody.getWidth()/2, holder_height-flowerBody.getHeight());
 		canvas.drawPicture(flowerBody);
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(holder_width/2-17-10*crushFactor, holder_height-35);
+		canvas.translate(holder_width/2-(flowerLeaf1.getWidth()+2)-10*crushFactor, holder_height-35);
 		canvas.drawPicture(flowerLeaf1);
 		canvas.restore();
 		
@@ -130,10 +135,10 @@ public class Flower extends PlantHolder implements Renderable {
 		canvas.restore();
 		
 		canvas.save();
-		canvas.translate(holder_width/2-30, holder_height-80+30*crushFactor);
+		canvas.translate(holder_width/2-flowerHead.getWidth()/2, holder_height-80+30*crushFactor);
 		
-		canvas.rotate(180*crushFactor, 30, 30);
-		canvas.scale(1,1-crushFactor/3, 30, 30);
+		canvas.rotate(180*crushFactor, flowerHead.getWidth()/2, flowerHead.getHeight()/2);
+		canvas.scale(1,1-crushFactor/3, flowerHead.getWidth()/2, flowerHead.getHeight()/2);
 		
 		canvas.drawPicture(flowerHead);
 		canvas.restore();
