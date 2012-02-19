@@ -5,28 +5,23 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
-        
-        android:textSize="50px"
-        android:paddingTop="250px"
-        android:paddingBottom="30px"
-        android:gravity="center"
-        android:layout_width="fill_parent"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name_menu" />
+        android:src="@drawable/logo" android:layout_gravity="center_horizontal" android:paddingBottom="20dip"/>
     
     <Button
      android:gravity="center"
      android:id="@+id/start_new_button"
      android:layout_height="wrap_content"
      android:layout_width="fill_parent"
-     android:text="@string/app_menu_newgame"
-      />
+     android:text="@string/app_menu_newgame" android:layout_marginLeft="40dip" android:layout_marginRight="40dip"/>
     <Button
      android:gravity="center"
      android:id="@+id/about_button"
      android:layout_height="wrap_content"
      android:layout_width="fill_parent"
      android:text="@string/app_menu_about"
-      />
+      android:layout_marginRight="40dip" android:layout_marginLeft="40dip" android:layout_marginTop="10dip"/>
 </LinearLayout>
