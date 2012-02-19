@@ -1,6 +1,7 @@
 package cz.gug.hackathon.mantattan;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
 
 public class WeedCrusherApp extends Application {
@@ -31,12 +32,14 @@ public class WeedCrusherApp extends Application {
 //		this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
 //		this.prefs.registerOnSharedPreferenceChangeListener(this);
 		dataTable = new DataTable(numRows, numCols);
+		startService(new Intent(this, MusicService.class));
 		Log.i(TAG, "onCreated");
 	}
 
 	@Override
 	public void onTerminate() { //
 		super.onTerminate();
+		stopService(new Intent(this, MusicService.class));
 		Log.i(TAG, "onTerminated");
 	}	
 

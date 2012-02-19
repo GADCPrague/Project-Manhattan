@@ -2,6 +2,7 @@ package cz.gug.hackathon.mantattan;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -18,7 +19,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
-
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 //        dataTable = new DataTable(3, 2);
 //        Log.d(TAG, "====================================================");
 //        dataTable.shuffle(0);

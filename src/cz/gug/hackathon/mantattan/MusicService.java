@@ -8,10 +8,11 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.os.IBinder;
 import android.util.Log;
 
-public class MusicService extends Service {
+public class MusicService extends Service implements OnPreparedListener {
 
 	static final String TAG = "MusicService";
 
@@ -31,12 +32,14 @@ public class MusicService extends Service {
 
 		mediaPlayer = new MediaPlayer();
 		AssetFileDescriptor descriptor;
-		try {
+		try {			
 			descriptor = assetManager.openFd("theme.ogg");
 			mediaPlayer.setDataSource(descriptor.getFileDescriptor(),
 					descriptor.getStartOffset(), descriptor.getLength());
-			mediaPlayer.prepare();
-			playerOK = true;
+			mediaPlayer.setOnPreparedListener(this);
+			mediaPlayer.prepareAsync();
+			mediaPlayer.setLooping(true);
+			
 		} catch (IOException e) {
 			Log.d(TAG, "Unable to open audio file.");
 			e.printStackTrace();
@@ -73,6 +76,7 @@ public class MusicService extends Service {
 		if (playerOK) {
 			if (mediaPlayer.isPlaying()) {
 				mediaPlayer.stop();
+				mediaPlayer.release();
 			}
 			this.weedCrusherApp.setMusicServiceRunning(runFlag);
 		}
@@ -84,6 +88,10 @@ public class MusicService extends Service {
 	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void onPrepared(MediaPlayer mp) {
+		playerOK = true;		
 	}
 
 }
