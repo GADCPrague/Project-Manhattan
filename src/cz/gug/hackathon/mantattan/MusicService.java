@@ -32,7 +32,7 @@ public class MusicService extends Service {
 		mediaPlayer = new MediaPlayer();
 		AssetFileDescriptor descriptor;
 		try {
-			descriptor = assetManager.openFd("music.ogg");
+			descriptor = assetManager.openFd("theme.ogg");
 			mediaPlayer.setDataSource(descriptor.getFileDescriptor(),
 					descriptor.getStartOffset(), descriptor.getLength());
 			mediaPlayer.prepare();
@@ -58,7 +58,7 @@ public class MusicService extends Service {
 			if (!(mediaPlayer.isPlaying())) {
 				mediaPlayer.start();
 			}
-			this.weedCrusherApp.setMusicServiceRunning(true);
+			this.weedCrusherApp.setMusicServiceRunning(runFlag);
 		}
 
 		Log.d(TAG, "onStarted");
@@ -74,7 +74,7 @@ public class MusicService extends Service {
 			if (mediaPlayer.isPlaying()) {
 				mediaPlayer.stop();
 			}
-			this.weedCrusherApp.setMusicServiceRunning(false);
+			this.weedCrusherApp.setMusicServiceRunning(runFlag);
 		}
 
 		Log.d(TAG, "onDestroyed");
