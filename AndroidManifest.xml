@@ -33,7 +33,7 @@
             
         </activity>
         
-        <service android:name=".MusicService"></service>
+        
     </application>
 
 </manifest>
